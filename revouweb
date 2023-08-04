@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gender Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #genderResult {
+            margin-top: 30px;
+        }
+
+        #genderImage {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gender Prediction</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="predictGender()">Predict</button>
+    <div id="genderResult"></div>
+    <img src="" id="genderImage" alt="Gender Illustration">
+    <script>
+        function predictGender() {
+            const name = document.getElementById("nameInput").value;
+            const apiUrl = `https://api.genderize.io/?name=${name}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    displayResult(data.gender);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        function displayResult(gender) {
+            const resultDiv = document.getElementById("genderResult");
+            const imageElement = document.getElementById("genderImage");
+
+            let genderText;
+            let imageUrl;
+
+            if (gender === "male") {
+                genderText = "Male";
+                imageUrl = "URL_TO_MALE_IMAGE"; // Replace with a URL of a male image
+            } else if (gender === "female") {
+                genderText = "Female";
+                imageUrl = "URL_TO_FEMALE_IMAGE"; // Replace with a URL of a female image
+            } else {
+                genderText = "Gender not found";
+                imageUrl = "URL_TO_NULL_IMAGE"; // Replace with a URL of an image for unknown gender
+            }
+
+            resultDiv.textContent = `Predicted Gender: ${genderText}`;
+            imageElement.src = imageUrl;
+        }
+    </script>
+</body>
+</html>
